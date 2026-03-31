@@ -1,0 +1,7 @@
+[
+    {"name": "httpx", "url": "https://github.com/encode/httpx"},
+    {"name": "rich", "url": "https://github.com/Textualize/rich"},
+    {"name": "fastapi", "url": "https://github.com/tiangolo/fastapi"},
+    {"name": "black", "url": "https://github.com/psf/black"},
+    {"name": "flask", "url": "https://github.com/pallets/flask"}
+]

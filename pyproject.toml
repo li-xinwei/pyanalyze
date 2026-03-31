@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyanalyze"
+version = "0.1.0"
+description = "Python Static Analysis & Dependency Visualization"
+requires-python = ">=3.9"
+dependencies = [
+    "networkx>=3.0",
+    "click>=8.0",
+    "rich>=13.0",
+]
+
+[project.scripts]
+pyanalyze = "src.cli:cli"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

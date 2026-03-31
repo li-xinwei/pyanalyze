@@ -1,0 +1,356 @@
+{
+  "nodes": [
+    {
+      "id": "scraper.scrape",
+      "name": "scrape",
+      "file": "scraper.py",
+      "lineno": 6,
+      "lines": 9,
+      "complexity": 1,
+      "fan_in": 0,
+      "fan_out": 6,
+      "source_code": "def scrape(url):\n    config = get_config()\n    html = fetch_page(url, config)\n    links = extract_links(html)\n    text = extract_text(html)\n    result = {\"url\": url, \"links\": links, \"text\": text}\n    save_result(result)\n    log(f\"Scraped {url}\")\n    return result",
+      "is_method": false,
+      "class_name": null,
+      "args": [
+        "url"
+      ],
+      "decorators": []
+    },
+    {
+      "id": "scraper.fetch_page",
+      "name": "fetch_page",
+      "file": "scraper.py",
+      "lineno": 16,
+      "lines": 3,
+      "complexity": 1,
+      "fan_in": 1,
+      "fan_out": 2,
+      "source_code": "def fetch_page(url, config):\n    timeout = config.get(\"timeout\", 30)\n    return retry(lambda: _do_fetch(url, timeout))",
+      "is_method": false,
+      "class_name": null,
+      "args": [
+        "url",
+        "config"
+      ],
+      "decorators": []
+    },
+    {
+      "id": "scraper._do_fetch",
+      "name": "_do_fetch",
+      "file": "scraper.py",
+      "lineno": 20,
+      "lines": 3,
+      "complexity": 1,
+      "fan_in": 1,
+      "fan_out": 0,
+      "source_code": "def _do_fetch(url, timeout):\n    # simulate HTTP request\n    return f\"<html>content of {url}</html>\"",
+      "is_method": false,
+      "class_name": null,
+      "args": [
+        "url",
+        "timeout"
+      ],
+      "decorators": []
+    },
+    {
+      "id": "config.get_config",
+      "name": "get_config",
+      "file": "config.py",
+      "lineno": 7,
+      "lines": 2,
+      "complexity": 1,
+      "fan_in": 3,
+      "fan_out": 0,
+      "source_code": "def get_config():\n    return _DEFAULT_CONFIG.copy()",
+      "is_method": false,
+      "class_name": null,
+      "args": [],
+      "decorators": []
+    },
+    {
+      "id": "config.update_config",
+      "name": "update_config",
+      "file": "config.py",
+      "lineno": 10,
+      "lines": 4,
+      "complexity": 1,
+      "fan_in": 0,
+      "fan_out": 1,
+      "source_code": "def update_config(overrides):\n    config = get_config()\n    config.update(overrides)\n    return config",
+      "is_method": false,
+      "class_name": null,
+      "args": [
+        "overrides"
+      ],
+      "decorators": []
+    },
+    {
+      "id": "parser.extract_links",
+      "name": "extract_links",
+      "file": "parser.py",
+      "lineno": 3,
+      "lines": 4,
+      "complexity": 1,
+      "fan_in": 1,
+      "fan_out": 3,
+      "source_code": "def extract_links(html):\n    log(\"Extracting links\")\n    raw = _find_tags(html, \"a\")\n    return [sanitize(link) for link in raw]",
+      "is_method": false,
+      "class_name": null,
+      "args": [
+        "html"
+      ],
+      "decorators": []
+    },
+    {
+      "id": "parser.extract_text",
+      "name": "extract_text",
+      "file": "parser.py",
+      "lineno": 8,
+      "lines": 4,
+      "complexity": 1,
+      "fan_in": 1,
+      "fan_out": 2,
+      "source_code": "def extract_text(html):\n    log(\"Extracting text\")\n    raw = _find_tags(html, \"p\")\n    return \" \".join(raw)",
+      "is_method": false,
+      "class_name": null,
+      "args": [
+        "html"
+      ],
+      "decorators": []
+    },
+    {
+      "id": "parser._find_tags",
+      "name": "_find_tags",
+      "file": "parser.py",
+      "lineno": 13,
+      "lines": 3,
+      "complexity": 1,
+      "fan_in": 2,
+      "fan_out": 0,
+      "source_code": "def _find_tags(html, tag):\n    # simplified tag finder\n    return [f\"content_{tag}_{i}\" for i in range(3)]",
+      "is_method": false,
+      "class_name": null,
+      "args": [
+        "html",
+        "tag"
+      ],
+      "decorators": []
+    },
+    {
+      "id": "utils.log",
+      "name": "log",
+      "file": "utils.py",
+      "lineno": 3,
+      "lines": 2,
+      "complexity": 1,
+      "fan_in": 5,
+      "fan_out": 0,
+      "source_code": "def log(message):\n    print(f\"[LOG] {message}\")",
+      "is_method": false,
+      "class_name": null,
+      "args": [
+        "message"
+      ],
+      "decorators": []
+    },
+    {
+      "id": "utils.sanitize",
+      "name": "sanitize",
+      "file": "utils.py",
+      "lineno": 6,
+      "lines": 2,
+      "complexity": 1,
+      "fan_in": 1,
+      "fan_out": 0,
+      "source_code": "def sanitize(text):\n    return text.strip().lower()",
+      "is_method": false,
+      "class_name": null,
+      "args": [
+        "text"
+      ],
+      "decorators": []
+    },
+    {
+      "id": "utils.retry",
+      "name": "retry",
+      "file": "utils.py",
+      "lineno": 9,
+      "lines": 8,
+      "complexity": 4,
+      "fan_in": 1,
+      "fan_out": 0,
+      "source_code": "def retry(func, max_attempts=3):\n    for i in range(max_attempts):\n        try:\n            return func()\n        except Exception:\n            if i == max_attempts - 1:\n                raise\n    return None",
+      "is_method": false,
+      "class_name": null,
+      "args": [
+        "func",
+        "max_attempts"
+      ],
+      "decorators": []
+    },
+    {
+      "id": "utils.ensure_dir",
+      "name": "ensure_dir",
+      "file": "utils.py",
+      "lineno": 18,
+      "lines": 2,
+      "complexity": 1,
+      "fan_in": 1,
+      "fan_out": 0,
+      "source_code": "def ensure_dir(path):\n    os.makedirs(path, exist_ok=True)",
+      "is_method": false,
+      "class_name": null,
+      "args": [
+        "path"
+      ],
+      "decorators": []
+    },
+    {
+      "id": "storage.save_result",
+      "name": "save_result",
+      "file": "storage.py",
+      "lineno": 4,
+      "lines": 6,
+      "complexity": 1,
+      "fan_in": 1,
+      "fan_out": 4,
+      "source_code": "def save_result(data):\n    config = get_config()\n    path = config.get(\"output_dir\", \"./output\")\n    ensure_dir(path)\n    _write_json(path, data)\n    log(f\"Saved to {path}\")",
+      "is_method": false,
+      "class_name": null,
+      "args": [
+        "data"
+      ],
+      "decorators": []
+    },
+    {
+      "id": "storage._write_json",
+      "name": "_write_json",
+      "file": "storage.py",
+      "lineno": 11,
+      "lines": 3,
+      "complexity": 1,
+      "fan_in": 1,
+      "fan_out": 0,
+      "source_code": "def _write_json(path, data):\n    # simulate writing\n    pass",
+      "is_method": false,
+      "class_name": null,
+      "args": [
+        "path",
+        "data"
+      ],
+      "decorators": []
+    },
+    {
+      "id": "storage.load_results",
+      "name": "load_results",
+      "file": "storage.py",
+      "lineno": 15,
+      "lines": 3,
+      "complexity": 1,
+      "fan_in": 0,
+      "fan_out": 1,
+      "source_code": "def load_results(path):\n    log(f\"Loading from {path}\")\n    return []",
+      "is_method": false,
+      "class_name": null,
+      "args": [
+        "path"
+      ],
+      "decorators": []
+    }
+  ],
+  "edges": [
+    {
+      "source": "scraper.scrape",
+      "target": "config.get_config"
+    },
+    {
+      "source": "scraper.scrape",
+      "target": "scraper.fetch_page"
+    },
+    {
+      "source": "scraper.scrape",
+      "target": "parser.extract_links"
+    },
+    {
+      "source": "scraper.scrape",
+      "target": "parser.extract_text"
+    },
+    {
+      "source": "scraper.scrape",
+      "target": "storage.save_result"
+    },
+    {
+      "source": "scraper.scrape",
+      "target": "utils.log"
+    },
+    {
+      "source": "scraper.fetch_page",
+      "target": "utils.retry"
+    },
+    {
+      "source": "scraper.fetch_page",
+      "target": "scraper._do_fetch"
+    },
+    {
+      "source": "config.update_config",
+      "target": "config.get_config"
+    },
+    {
+      "source": "parser.extract_links",
+      "target": "utils.log"
+    },
+    {
+      "source": "parser.extract_links",
+      "target": "parser._find_tags"
+    },
+    {
+      "source": "parser.extract_links",
+      "target": "utils.sanitize"
+    },
+    {
+      "source": "parser.extract_text",
+      "target": "utils.log"
+    },
+    {
+      "source": "parser.extract_text",
+      "target": "parser._find_tags"
+    },
+    {
+      "source": "storage.save_result",
+      "target": "config.get_config"
+    },
+    {
+      "source": "storage.save_result",
+      "target": "utils.ensure_dir"
+    },
+    {
+      "source": "storage.save_result",
+      "target": "storage._write_json"
+    },
+    {
+      "source": "storage.save_result",
+      "target": "utils.log"
+    },
+    {
+      "source": "storage.load_results",
+      "target": "utils.log"
+    }
+  ],
+  "metrics": {
+    "total_files": 5,
+    "total_functions": 15,
+    "total_edges": 19,
+    "avg_complexity": 1.2,
+    "avg_slice_reduction": 0.8437,
+    "max_fan_in": 5,
+    "max_fan_out": 6
+  },
+  "files": [
+    "config.py",
+    "parser.py",
+    "scraper.py",
+    "storage.py",
+    "utils.py"
+  ]
+}
